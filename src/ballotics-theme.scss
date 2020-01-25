@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$ballotics-primary: mat-palette($mat-purple, 800, 600, 900);
+$ballotics-accent:  mat-palette($mat-green, 900);
+
+$ballotics-warn:    mat-palette($mat-red);
+
+$ballotics-theme: mat-light-theme($ballotics-primary, $ballotics-accent, $ballotics-warn);
+
+@include angular-material-theme($ballotics-theme);
