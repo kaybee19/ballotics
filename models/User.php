@@ -18,7 +18,7 @@
             $stmt = "INSERT INTO `User`() VALUE() ";
         }
         
-        public function sendMessage($message_body, $recipient_id){
+        public function sendMessage($message_body, $recipient_email){
             //
             $stmt = "INSERT INTO TABLE";
         }
@@ -39,27 +39,22 @@
         }
         
         public function changeName(){
-            
+            //
         }
         
         public function changePassword(){
-            
+            //
         }
         
-        public function changeLocation(){
-            
+        public function changeAddress(){
+            //
         }
         
         public function follow($user_email){
-            
+            //
         }
         
         public function changeProfilePicture(){
-            
-        }
-        
-        public function edit_profile(){
             //
-            $stmt = "INSERT INTO User";
         }
     }
