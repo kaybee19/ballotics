@@ -8,11 +8,9 @@
 class Database{
      //  DB Params
         private $host = 'localhost';
-        private $db_name = 'ballotics_db';
-        private $username = 'ballotics_admin';
-        //private $username = '';
+        private $db_name = 'ballotic_db';
+        private $username = 'ballotic_admin';
         private $password = '2wo1ne8ight';
-        //private $password = ''; the server on the remote server
         private $conn;
          //  DB Connect
         public function connect(){
