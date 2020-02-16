@@ -15,9 +15,11 @@
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', md5($password));
             $stmt->execute();
-            $userDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	          $user_data = json_encode($userDetails);
-	          echo($user_data);
+            
+            return $stmt;
+            //$userDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            //$user_data = json_encode($userDetails);
+            //echo($user_data);
         }
 
         public function register($email, $password){

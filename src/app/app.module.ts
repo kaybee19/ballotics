@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 /**       Angular Material components */
 import { MatIconModule } from '@angular/material/icon'; 
@@ -23,16 +25,28 @@ import { RegisterComponent } from './register/register.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { AboutComponent } from './about/about.component';
+import { UserComponent } from './dashboard/user/user.component';
+import { MessageComponent } from './dashboard/user/message/message.component';
+import { ProfileComponent } from './dashboard/user/profile/profile.component';
+import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AboutComponent,
+    UserComponent,
+    MessageComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
@@ -49,7 +63,7 @@ import { environment } from '../environments/environment';
     MatStepperModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

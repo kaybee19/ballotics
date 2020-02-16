@@ -11,30 +11,27 @@
 
                 <mat-card-content>
                     <mat-form-field>            
-                        <input type="text" matInput placeholder="Email" name="email">
+                        <input [(ngModel)]="loginUserData.email" type="text" matInput placeholder="Email" name="email"  required>
                         <mat-icon matSuffix color="primary">mail</mat-icon>
-                        <mat-hint>Enter your email here</mat-hint>
+                        <mat-hint align="end">Enter your email here</mat-hint>
                     </mat-form-field>
 
                     <br/>
                     
                     <mat-form-field>
-                        <input type="password" matInput placeholder="Password" name="password">
+                        <input [(ngModel)]="loginUserData.password" type="password" matInput placeholder="Password" name="password" required>
                         <mat-icon matSuffix color="primary">lock</mat-icon>
-                        <mat-hint>Enter your password here</mat-hint>
+                        <mat-hint align="end">Enter your password here</mat-hint>
                     </mat-form-field>
 
                 </mat-card-content>
 
                 <mat-card-actions align="start">
 
-                    <button mat-raised-button color="primary">Login</button>
+                    <button mat-raised-button color="primary" (click)="loginUser()">Login</button>
+                    <br/> You have not registered? Register <a routerLink="/register">here.</a>
                     
                 </mat-card-actions>
-
-                <mat-card-footer>
-                    You have not registered? Register <a routerLink="/register">here.</a>
-                </mat-card-footer>
             </mat-card>
         </div>
     </div>

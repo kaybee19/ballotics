@@ -9,32 +9,31 @@
                 <mat-card-content>
 
                     <mat-form-field>
-                    <input type="text" matInput placeholder="email">
+                    <input type="email" matInput placeholder="email" #email name="email" [(ngModel)]="registerUserData.email" required>
                     <mat-icon matSuffix color="primary">mail</mat-icon>
-                    <mat-hint>Enter a valid email</mat-hint>
+                    <mat-hint align="end">Enter a valid email</mat-hint>
                     </mat-form-field>
                     <br/>
 
                     <mat-form-field>
-                    <input type="text" matInput placeholder="Password">
+                    <input type="password" matInput placeholder="Password" name="password" [(ngModel)]="registerUserData.password" required>
                     <mat-icon matSuffix color="primary">lock</mat-icon>
-                    <mat-hint>Enter a password</mat-hint>
+                    <mat-hint align="end">Enter a password</mat-hint>
                     </mat-form-field>
                     <br/>
 
                     <mat-form-field>
-                    <input type="text" matInput placeholder="Password">
+                    <input type="password" matInput placeholder="Password" name="password_verify" [(ngModel)]="registerUserData.password_verify" required>
                     <mat-icon matSuffix color="primary">lock</mat-icon>
-                    <mat-hint>Enter password again</mat-hint>
+                    <mat-hint align="end">Enter password again</mat-hint>
                     </mat-form-field>
+                    {{ passwordMessage }}
                 </mat-card-content>
                 <mat-card-actions align="start">
-                    <button mat-raised-button color="primary">Register</button>
+                    <button mat-raised-button color="primary" (click)="registerUser()"> Register </button>
+                    <br/>Already registered? Login <a routerLink="/">here.</a>
                     
                 </mat-card-actions>
-                <mat-card-footer>
-                    Already registered? Login <a routerLink="/">here.</a>
-                </mat-card-footer>
             </mat-card>
         </div>
     </div>
