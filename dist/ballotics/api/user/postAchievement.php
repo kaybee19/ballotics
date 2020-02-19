@@ -19,15 +19,24 @@ $db = $database->connect();
 
 $user = new User($db);
 
+$data = json_decode(file_get_contents("php://input"));
 
-$email = isset($_GET['email']) ? $_GET['email'] : die();
-$date_commenced = isset($_GET['date_commenced']) ? $_GET['date_commenced'] : die();
-$date_completed = isset($_GET['date_completed']) ? $_GET['date_completed'] : die();
-$location = isset($_GET['location']) ? $_GET['location'] : die();
-$date_commissioned = isset($_GET['date_commissioned']) ? $_GET['date_commissioned'] : die();
+$email = $data->email;
+$date_commenced = $data->date_commenced;
+$date_completed = $data->date_completed;
+$location = $data->location;
+$date_commissioned = $data->date_commissioned;
 
-if($user->postAchievement($email, $date_commenced, $date_completed, $location, $date_commissioned)){
+print_r($data);
+$user->postAchievement($email, $date_commenced, $date_completed, $location, $date_commissioned);
+//$user->postAchievement("a@b.c", "2020-10-20", "2020-10-20", "KAD", "2020-10-20");
+//$user->postAchievement($email, $date_commenced, $date_completed, $location, $date_commissioned);
+//if($user->postAchievement($email, $date_commenced, $date_completed, $location, $date_commissioned)){
+ // echo json_encode(array("Message" => "Post created successfully"));
+  //header("Registration successful", FALSE, 200);
+//}else{
+//  echo json_encode(array("Message" => "Unable to register."));
+//  header("Unable to post", FALSE, 400);
+//}
 
-}else{
 
-}

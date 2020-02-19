@@ -1,6 +1,18 @@
-.mat-sidenav{
-    min-width:240px;
-    button{
-        width: 100%;
-    }
+.main-container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.toolbar{
+    height: 50px;
+    width: 100%;
+}
+.cont{
+    flex: 1 1 auto;
+    //display: flex;
+    //background-color: grey;
+}
+.cent{
+    margin: auto;
+    //width: 800px;
 }

@@ -30,16 +30,3 @@
       echo json_encode(array("Message" => "Unable to register."));
       header("Unable to register", FALSE, 400);
     }
-
-    //$email = isset($_GET['email']) ? $_GET['email'] : die();
-    //$password = isset($_GET['password']) ? $_GET['password'] : die();
-
-
-
-    /*if($user->register($email, $password)){
-      echo json_encode(array("Message" => "Registered successfully."));
-      header("Registration successful", FALSE, 202);
-    }else{
-      echo json_encode(array("Message" => "Unable to register."));
-      header("Unable to register", FALSE, 400);
-    }*/

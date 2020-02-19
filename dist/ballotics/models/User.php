@@ -14,12 +14,13 @@
             //
             $query = "
               SELECT
-                User.email as email,
+                User.id as id,
                 CONCAT(Name.first_name, ' ',
                 Name.middle_name, ' ',
-                Name.last_name) as name
+                Name.last_name) as name,
+                User.is_admin as admin
                 FROM User
-              JOIN Name ON Name.email = User.email
+              JOIN Name ON Name.id = User.id
               WHERE
                 User.email = :email
                 AND
@@ -28,8 +29,11 @@
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', md5($password));
-            $stmt->execute();
-            return $stmt;
+            if($stmt->execute()){
+              return $stmt;
+            }
+            printf("Error: %s.\n", $stmt->error);
+            return false;
         }
 
         public function register($email, $password){
@@ -72,11 +76,13 @@
                     Message.time_sent as time_sent
                     FROM `Message`
                     WHERE Message.recipient_email = :email
-                    ORDER BY Message.time_sent DESC";
+                        ORDER BY Message.time_sent DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        return $stmt;
+        if($stmt->execute()) {
+          return $stmt;
+        }
+        return false;
       }
 
       public function readMessage($email, $message_id){
@@ -93,14 +99,17 @@
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':id', $message_id);
-        $stmt->execute();
-        return $stmt;
+        if($stmt->execute()) {
+          return $stmt;
+        }
+        printf("Error: %s.\n", $stmt->error);
+        return false;
       }
 
       public function postAchievement($email, $date_commenced, $date_completed, $location, $date_commissioned){
         //
-        $sql = "INSERT INTO `POST`(`id`, `user_email`, `date_commenced`, `date_completed`, `location`, `date_commissioned`, `time_posted`)
-                VALUES(NULL, :email, :date_commenced, :date_completed, :location, :date_commissioned, CURRENT_TIMESTAMP)";
+        $sql = "INSERT INTO `Post`(`user_email`, `date_commenced`, `date_completed`, `location`, `date_commissioned`)
+                VALUES(:email, :date_commenced, :date_completed, :location, :date_commissioned)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':date_commenced', $date_commenced);
@@ -115,75 +124,131 @@
         return false;
       }
 
-        public function viewMyPosts(){
+        public function viewMyPosts($email){
           //
-          $sql = "SELECT * FROM `Post`";
-          $stmt = $this->conn->prepare($sql);
-          $stmt->execute();
-          return $stmt;
+          $query = "SELECT
+                      Post.date_commenced as started,
+                      Post.date_completed as completed,
+                      Post.date_commissioned as commissioned,
+                      Post.location as location,
+                      Post.time_posted as posted,
+                      Post.description as description
+                          FROM `Post` WHERE Post.user_email = :email";
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':email', $email);
+
+          if($stmt->execute()) {
+            return $stmt;
+          }
+          printf("Error: %s.\n", $stmt->error);
+          return false;
         }
 
-        public function comment($post_id, $comment_body){
+        public function commentOnPost($user_id, $post_id, $body){
             //
-            $sql = "";
+            $sql = "INSERT INTO `PostComment`(`user_id`, `post_id`, `body`) VALUES(:user_id, :post_id, :body)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
+          $stmt->bindParam(':user_id', $user_id);
+          $stmt->bindParam(':post_id', $post_id);
+          $stmt->bindParam(':body', $body);
+
+          if($stmt->execute()) {
             return $stmt;
+          }
+          printf("Error: %s.\n", $stmt->error);
+          return false;
         }
 
         public function reactToPost($post_id, $sentiment){
             //
             $sql = "";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
+
+          if($stmt->execute()) {
             return $stmt;
+          }
+          printf("Error: %s.\n", $stmt->error);
+          return false;
         }
 
-        public function logout(){
+        public function changeName($id, $first_name, $middle_name, $last_name){
             //
-            $sql = "";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt;
+            $query = "UPDATE `Name` SET
+                        `first_name` = :first_name,
+                        `middle_name` = :middle_name,
+                        `last_name` = :last_name
+                         WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':first_name', $first_name);
+            $stmt->bindParam(':middle_name', $middle_name);
+            $stmt->bindParam(':last_name', $last_name);
+            $stmt->bindParam(':id', $id);
+            if($stmt->execute()) {
+              return $stmt;
+            }
+            printf("Error: %s.\n", $stmt->error);
+            return false;
         }
 
-        public function changeName($first_name, $middle_name, $last_name){
+        public function changePassword($id, $old_password, $new_password){
             //
-            $sql = "";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt;
-        }
-
-        public function changePassword($old_password, $new_password){
-            //
-            $sql = "";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt;
+            $query = "UPDATE `User` SET `password` = :new_password WHERE id = :id AND password = :old_password";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':old_password', $old_password);
+            $stmt->bindParam(':new_password', $new_password);
+            if($stmt->execute()) {
+              return $stmt;
+            }
+            printf("Error: %s.\n", $stmt->error);
+            return false;
         }
 
         public function changeAddress(){
             //
             $sql = "INSERT INTO `Address`";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt;
+
+            if($stmt->execute()) {
+              return $stmt;
+            }
+            printf("Error: %s.\n", $stmt->error);
+            return false;
         }
 
         public function follow($user_email){
             //
             $sql = "INSERT INTO";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt;
+
+            if($stmt->execute()) {
+              return $stmt;
+            }
+            printf("Error: %s.\n", $stmt->error);
+            return false;
         }
 
         public function changeProfilePicture(){
           //
-          $sql = "";
+          $sql = "INSERT INTO `ProfilePicture() VALUES();`";
           $stmt = $this->conn->prepare($sql);
-          $stmt->execute();
+
+          if($stmt->execute()) {
+            return $stmt;
+          }
+          printf("Error: %s.\n", $stmt->error);
+          return false;
+        }
+
+      public function logout(){
+        //
+        $sql = "";
+        $stmt = $this->conn->prepare($sql);
+
+        if($stmt->execute()) {
           return $stmt;
         }
+        printf("Error: %s.\n", $stmt->error);
+        return false;
+      }
     }

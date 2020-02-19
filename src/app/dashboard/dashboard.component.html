@@ -1,1 +1,26 @@
-<p>Welcome to your dashboard</p>
+<mat-sidenav-container>
+
+  <mat-sidenav #sidenav class="mat-sidenav">
+    <button mat-button><mat-icon>person</mat-icon>profile </button>
+    <button mat-button><mat-icon>message</mat-icon> Messages </button>
+    <button mat-button><mat-icon>notifications</mat-icon> Notifications </button>
+    <button mat-button><mat-icon>rss_feed</mat-icon> feed </button>
+    <button mat-button><mat-icon>exit_to_app</mat-icon> Logout </button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="accent" class="mat-elevation-z5">
+      <mat-toolbar-row>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button> 
+        Menu
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <!-- Main body -->
+
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

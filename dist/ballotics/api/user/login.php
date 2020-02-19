@@ -35,8 +35,9 @@
         extract($row);
 
         $user_data = array(
-          'email' => $email,
-          'name' => $name
+          'id' => $id,
+          'name' => $name,
+          'admin' => $admin
         );
         array_push($user_arr['data'], $user_data);
       }
