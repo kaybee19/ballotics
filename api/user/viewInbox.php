@@ -1,10 +1,9 @@
 <?php
-
-  /*
-   * To change this license header, choose License Headers in Project Properties.
-   * To change this template file, choose Tools | Templates
-   * and open the template in the editor.
-   */
+    /*
+    * To change this license header, choose License Headers in Project Properties.
+    * To change this template file, choose Tools | Templates
+    * and open the template in the editor.
+    */
 
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json");
@@ -22,32 +21,27 @@
     $data = json_decode(file_get_contents("php://input"));
 
     $email = $data->email;
-    $password = $data->password;
 
-    $result = $user->login($email, $password);
+    $result = $user->viewInbox($email);
 
     $num = $result->rowCount();
 
     if($num > 0){
-      $user_arr = array();
-      $user_arr['data'] = array();
+      $message_arr = array();
+      $message_arr['data'] = array();
       while($row = $result->fetch(PDO::FETCH_ASSOC)){
         extract($row);
-
-        $user_data = array(
+        $message_data = array(
+          'sender' => $sender,
+          'body' => $body,
           'id' => $id,
-          'name' => $name,
-          'admin' => $admin
+          'time_sent' => $time_sent
         );
-        array_push($user_arr['data'], $user_data);
+        array_push($message_arr['data'], $message_data);
       }
-      echo json_encode($user_arr['data']);
+      echo json_encode($message_arr['data']);
       header("User logged in", FALSE, 200);
-    }else {
-      echo json_encode(array("Message" => "Invalid login credentials"));
-      header("Invalid login credentials", FALSE, 415);
+    }else{
+      echo json_encode(array("Message" => "No messages"));
+      header("No messages", FALSE, 415);
     }
-
-
-
-
